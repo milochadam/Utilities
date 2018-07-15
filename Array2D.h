@@ -15,7 +15,7 @@ class Array2D {
     }
 
     T& operator()(size_t x, size_t y) {
-        return _array[width * y + x];
+        return _array[height * y + x];
     }
 
     void init() {
