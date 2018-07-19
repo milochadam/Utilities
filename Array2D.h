@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cstddef>
 template <class T>
 class Array2D {
@@ -10,17 +11,32 @@ class Array2D {
         _array = new T[x * y];
     }
 
-    ~Array2D() {
-        delete[] _array;
+    Array2D(const Array2D& o) : width(o.width), height(o.height) {
+        _array = new T[width * height];
+        std::copy(o._array, o._array + o.width * o.height, _array);
     }
 
-    T& operator()(size_t x, size_t y) {
-        return _array[height * y + x];
+    ~Array2D() {
+        delete[] _array;
     }
 
     void init() {
         for (size_t i = 0; i < width * height; ++i) {
             _array[i] = 0;
         }
+    }
+
+    T& operator()(size_t x, size_t y) {
+        return _array[height * y + x];
+    }
+
+    T& operator=(const T& o) {
+        if (o.width != width || o.height != height) {
+            delete[] _array;
+            _array = new T[o.width * o.height];
+        }
+        this->width = o.width;
+        this->height = o.height;
+        std::copy(o._array, o._array + o.width * o.height, _array);
     }
 };
